@@ -1,22 +1,24 @@
-package com.service;
+package com.application.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.application.usecases.IEventUseCases;
 import com.domain.address.Address;
 import com.domain.coupon.Coupon;
 import com.domain.event.*;
-import com.repositories.EventRepository;
+import com.utils.mappers.EventMapper;
 
 @Service
-public class EventService {
+public class EventService implements IEventUseCases {
+
+    
+    private IEventRepository eventRepository;
     @Autowired
-    private EventRepository repository;
+    private EventMapper eventMapper;
     @Autowired
     private AddressService addressService;
     @Autowired
@@ -29,15 +31,8 @@ public class EventService {
             imgUrl = this.UploadImg(data.image());
         }
 
-        Event event = new Event();
-        event.setTitle(data.title());
-        event.setDescription(data.description());
-        event.setEventUrl(data.eventUrl());
-        event.setDate(new Date(data.date()));
-        event.setImgUrl(imgUrl);
-        event.setRemote(data.remote());
-
-        repository.save(event);
+        Event event = new Event(null, data.title(), data.description(), imgUrl, data.eventUrl(), data.remote(), new Date(data.date()));
+        event = eventRepository.save(event);
 
         if(!data.remote())
             this.addressService.create(data, event);
@@ -47,21 +42,9 @@ public class EventService {
 
     public List<EventResponseDTO> getEvents(int page, int pageSize){
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<EventResponseDTO> eventsPage = this.repository
+        List<EventResponseDTO> eventsPage = this.eventRepository
             .findUpcomingEvents(new Date(), pageable)
-            .map(event -> 
-                new EventResponseDTO(
-                        event.getId(),
-                        event.getTitle(),
-                        event.getDescription(),
-                        event.getDate(),
-                        event.getAddress() != null ? event.getAddress().getCity() : "",
-                        event.getAddress()!= null ? event.getAddress().getUf() : "",
-                        event.getRemote(),
-                        event.getEventUrl(),
-                        event.getImgUrl()
-                    )
-                )
+            .map(event -> eventMapper.domainToResponseDTO(event, event.getAddress()))
                 .stream().toList();
         return eventsPage;
     }
@@ -74,7 +57,7 @@ public class EventService {
 
         Pageable pageable = PageRequest.of(page, pageSize);
 
-        Page<EventAddressProjection> eventsPage = this.repository.findFilteredEvents(city, uf, startDate, endDate, pageable);
+        Page<EventAddressProjection> eventsPage = this.eventRepository.findFilteredEvents(city, uf, startDate, endDate, pageable);
         return eventsPage.map(event -> 
                     new EventResponseDTO(
                         event.getId(),
@@ -92,29 +75,13 @@ public class EventService {
     }
 
     public EventDetailsDTO getEventDetails(UUID eventId){
-        Event event = repository.findById(eventId)
+        Event event = eventRepository.findById(eventId)
             .orElseThrow(() -> new IllegalArgumentException("Event not found"));
         
         List<Coupon> coupons = couponService.consultCoupons(eventId, new Date());
         Optional<Address> address = addressService.findByEventId(eventId);
 
-        List<EventDetailsDTO.CouponDTO> couponDTOs = coupons.stream()
-                .map(coupon -> new EventDetailsDTO.CouponDTO(
-                        coupon.getCode(),
-                        coupon.getDiscount(),
-                        coupon.getValid()))
-                .collect(Collectors.toList());
-
-        return new EventDetailsDTO(
-                event.getId(),
-                event.getTitle(),
-                event.getDescription(),
-                event.getDate(),
-                address.isPresent() ? address.get().getCity() : "",
-                address.isPresent() ? address.get().getUf() : "",
-                event.getImgUrl(),
-                event.getEventUrl(),
-                couponDTOs);
+        return eventMapper.domainToDetailsDTO(event, address, coupons);
     }
 
     private String UploadImg(MultipartFile file){

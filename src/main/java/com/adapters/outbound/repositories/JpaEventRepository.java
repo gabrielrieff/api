@@ -1,4 +1,4 @@
-package com.repositories;
+package com.adapters.outbound.repositories;
 
 import java.util.*;
 
@@ -6,9 +6,10 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import com.adapters.outbound.entites.JpaEventEntity;
 import com.domain.event.*;
 
-public interface EventRepository extends JpaRepository<Event, UUID>{
+public interface JpaEventRepository extends JpaRepository<JpaEventEntity, UUID>{
     @Query("SELECT e FROM Event e LEFT JOIN FETCH e.address WHERE  e.date >= :currentDate")
     public Page<Event> findUpcomingEvents(@Param("currentDate") Date currentDate, Pageable pageable);
 

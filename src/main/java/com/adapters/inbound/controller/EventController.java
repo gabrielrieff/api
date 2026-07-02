@@ -1,4 +1,4 @@
-package com.controller;
+package com.adapters.inbound.controller;
 
 import java.util.*;
 
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.application.service.EventService;
 import com.domain.event.Event;
 import com.domain.event.EventDetailsDTO;
 import com.domain.event.EventRequestDTO;
 import com.domain.event.EventResponseDTO;
-import com.service.EventService;
 
 @RestController
 @RequestMapping("/api/event")

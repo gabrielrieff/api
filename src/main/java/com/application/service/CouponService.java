@@ -1,4 +1,4 @@
-package com.service;
+package com.application.service;
 
 import java.util.*;
 
@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import com.domain.coupon.Coupon;
 import com.domain.coupon.CouponRequestDTO;
 import com.domain.event.Event;
-import com.repositories.CouponRepository;
-import com.repositories.EventRepository;
+import com.domain.event.IEventRepository;
+import com.adapters.outbound.entites.JpaEventEntity;
+import com.adapters.outbound.repositories.CouponRepository;
 
 @Service
 public class CouponService {
-    @Autowired private CouponRepository repository;
-    @Autowired private EventRepository eventRepository;
+    private CouponRepository repository;
+    private IEventRepository eventRepository;
 
     public Coupon createCoupon(UUID eventId, CouponRequestDTO data){
 
@@ -25,7 +26,7 @@ public class CouponService {
         coupon.setCode(data.code());
         coupon.setDiscount(data.discount());
         coupon.setValid(new Date(data.valid()));
-        coupon.setEvent(event);
+        coupon.setEvent(new JpaEventEntity(event));
 
         return repository.save(coupon);
     }

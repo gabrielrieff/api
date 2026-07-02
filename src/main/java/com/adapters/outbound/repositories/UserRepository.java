@@ -1,4 +1,4 @@
-package com.repositories;
+package com.adapters.outbound.repositories;
 
 import java.util.UUID;
 

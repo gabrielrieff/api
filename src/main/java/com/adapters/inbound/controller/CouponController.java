@@ -1,4 +1,4 @@
-package com.controller;
+package com.adapters.inbound.controller;
 
 import java.util.UUID;
 
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.application.service.CouponService;
 import com.domain.coupon.Coupon;
 import com.domain.coupon.CouponRequestDTO;
-import com.service.CouponService;
 
 @RestController
 @RequestMapping("/api/coupon")

@@ -2,7 +2,7 @@ package com.domain.address;
 
 import java.util.UUID;
 
-import com.domain.event.Event;
+import com.adapters.outbound.entites.JpaEventEntity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,5 +26,5 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    private Event event;
+    private JpaEventEntity event;
 }

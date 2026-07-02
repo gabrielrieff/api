@@ -1,4 +1,4 @@
-package com.controller;
+package com.adapters.inbound.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

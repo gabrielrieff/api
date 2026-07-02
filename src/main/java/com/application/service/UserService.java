@@ -1,13 +1,13 @@
-package com.service;
+package com.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.adapters.outbound.repositories.UserRepository;
 import com.domain.user.RegisterUserDTO;
 import com.domain.user.User;
 import com.domain.user.UserDetailDTO;
-import com.repositories.UserRepository;
 
 @Service
 public class UserService {
