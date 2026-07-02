@@ -1,4 +1,4 @@
-package com.domain.coupon;
+package com.domain.coupon.dto;
 
 
 public record CouponRequestDTO(String code, Integer discount, Long valid) {
