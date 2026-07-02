@@ -5,9 +5,10 @@ import com.adapters.outbound.entites.JpaEventEntity;
 import com.domain.address.Address;
 import com.domain.coupon.Coupon;
 import com.domain.event.Event;
-import com.domain.event.EventDetailsDTO;
-import com.domain.event.EventRequestDTO;
-import com.domain.event.EventResponseDTO;
+import com.domain.event.dto.EventAddressProjection;
+import com.domain.event.dto.EventDetailsDTO;
+import com.domain.event.dto.EventRequestDTO;
+import com.domain.event.dto.EventResponseDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -94,6 +95,19 @@ public interface EventMapper {
                 couponDTOs);
     };
 
+    default EventResponseDTO eventAddressProjectionToResponseDTO(EventAddressProjection domain){
+        return new EventResponseDTO(
+            domain.getId(),
+            domain.getTitle(),
+            domain.getDescription(),
+            domain.getDate(),
+            domain.getCity(),
+            domain.getUf(),
+            domain.getRemote(),
+            domain.getEventUrl(),
+            domain.getImgUrl()
+        );
+    }
 
     @Named("epochToDate")
     default Date epochToDate(Long timestamp) {

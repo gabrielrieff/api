@@ -1,4 +1,4 @@
-package com.domain.event;
+package com.domain.event.dto;
 
 import java.util.Date;
 import java.util.UUID;

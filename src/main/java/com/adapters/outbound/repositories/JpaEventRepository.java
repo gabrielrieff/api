@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.adapters.outbound.entites.JpaEventEntity;
 import com.domain.event.*;
+import com.domain.event.dto.EventAddressProjection;
 
 public interface JpaEventRepository extends JpaRepository<JpaEventEntity, UUID>{
     @Query("SELECT e FROM Event e LEFT JOIN FETCH e.address WHERE  e.date >= :currentDate")

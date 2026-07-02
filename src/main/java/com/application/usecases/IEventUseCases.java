@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import com.domain.event.Event;
-import com.domain.event.EventDetailsDTO;
-import com.domain.event.EventRequestDTO;
-import com.domain.event.EventResponseDTO;
+import com.domain.event.dto.EventDetailsDTO;
+import com.domain.event.dto.EventRequestDTO;
+import com.domain.event.dto.EventResponseDTO;
 
 public interface IEventUseCases {
     public Event createEvent(EventRequestDTO eventRequestDTO);

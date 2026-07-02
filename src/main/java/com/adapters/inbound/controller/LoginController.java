@@ -6,9 +6,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import com.domain.user.AuthenticationDTO;
-import com.domain.user.TokenResponseDTO;
 import com.domain.user.User;
+import com.domain.user.dto.AuthenticationDTO;
+import com.domain.user.dto.TokenResponseDTO;
 import com.infra.Security.TokenServices;
 
 import jakarta.validation.Valid;

@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 import com.adapters.outbound.entites.JpaEventEntity;
 import com.adapters.outbound.repositories.JpaEventRepository;
 import com.domain.event.Event;
-import com.domain.event.EventAddressProjection;
 import com.domain.event.IEventRepository;
+import com.domain.event.dto.EventAddressProjection;
 import com.utils.mappers.EventMapper;
 
 @Repository

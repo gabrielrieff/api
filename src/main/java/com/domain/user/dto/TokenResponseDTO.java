@@ -1,4 +1,4 @@
-package com.domain.user;
+package com.domain.user.dto;
 
 public record TokenResponseDTO(String token) {
 

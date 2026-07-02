@@ -7,21 +7,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.application.service.UserService;
-import com.domain.user.RegisterUserDTO;
-import com.domain.user.UserDetailDTO;
+import com.application.usecases.IUserUseCases;
+import com.domain.user.dto.RegisterUserDTO;
+import com.domain.user.dto.UserDetailDTO;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    @Autowired private IUserUseCases _userUseCases;
     
     @PostMapping()
     public ResponseEntity<UserDetailDTO> create(@RequestBody @Valid RegisterUserDTO data){
-        var response = this.userService.create(data);
+        var response = this._userUseCases.create(data);
         return ResponseEntity.ok(response);
     }
 }

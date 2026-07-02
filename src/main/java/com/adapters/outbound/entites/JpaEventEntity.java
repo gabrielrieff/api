@@ -1,9 +1,9 @@
 package com.adapters.outbound.entites;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
-import com.domain.address.Address;
 import com.domain.event.Event;
 
 import jakarta.persistence.CascadeType;
@@ -32,7 +32,7 @@ public class JpaEventEntity {
     private Date date;
 
     @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
-    private Address address;
+    private JpaAddressEntity address;
 
     public JpaEventEntity(Event event) {
         this.id = event.getId();

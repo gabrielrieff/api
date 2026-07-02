@@ -5,24 +5,19 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.application.usecases.IAddressUseCases;
 import com.domain.address.Address;
+import com.domain.address.IAddressRepository;
 import com.domain.event.Event;
-import com.domain.event.EventRequestDTO;
-import com.adapters.outbound.entites.JpaEventEntity;
-import com.adapters.outbound.repositories.AddressRepository;
+import com.domain.event.dto.EventRequestDTO;
 
 @Service
-public class AddressService {
+public class AddressService implements IAddressUseCases{
 
-    @Autowired
-    private AddressRepository repository;
+    @Autowired private IAddressRepository repository;
 
     public Address create(EventRequestDTO data, Event event){
-        Address address = new Address();
-        address.setCity(data.city());
-        address.setUf(data.state());
-        address.setEvent(new JpaEventEntity(event));
-
+        Address address = new Address(data.city(), data.state(), event);
         return repository.save(address);
     };
 

@@ -15,9 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.application.service.EventService;
 import com.domain.event.Event;
-import com.domain.event.EventDetailsDTO;
-import com.domain.event.EventRequestDTO;
-import com.domain.event.EventResponseDTO;
+import com.domain.event.dto.EventDetailsDTO;
+import com.domain.event.dto.EventRequestDTO;
+import com.domain.event.dto.EventResponseDTO;
 
 @RestController
 @RequestMapping("/api/event")

@@ -16,10 +16,9 @@ public class Event {
     private Boolean remote;
     private Date date;
 
-    private Optional<Address> address;
+    private Address address;
 
-    public Event(UUID uuid, String title, String description, String imgUrl, String eventUrl, Boolean remote, Date date){
-        this.id = uuid;
+    public Event(String title, String description, String imgUrl, String eventUrl, Boolean remote, Date date){
         this.title = title;
         this.description = description;
         this.imgUrl = imgUrl;
@@ -59,7 +58,7 @@ public class Event {
     }
 
     public Optional<Address> getAddress() {
-        return address;
+        return Optional.ofNullable(address);
     }
 
     public void setId(UUID id) {

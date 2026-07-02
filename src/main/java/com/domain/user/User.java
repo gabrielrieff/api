@@ -10,20 +10,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.domain.Enum.UserRole;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Table(name = "users")
-@Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class User implements UserDetails{
-
+public class User implements UserDetails
+{
+    private UUID id;
+    private String name;
+    private String email;
+    private String password;
+    private UserRole role;
+    private Date createAt;
+    
     public User(String name, String email, String password, UserRole role){
         this.name = name;
         this.email = email;
@@ -31,17 +26,54 @@ public class User implements UserDetails{
         this.role = role;
     }
 
-    @Id
-    @GeneratedValue
-    private UUID id;
+    public UUID getId() {
+        return id;
+    }
 
-    private String name;
-    private String email;
-    private String password;
-    private UserRole role;
-    @Column(name = "createat", nullable = false, insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createAt;
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

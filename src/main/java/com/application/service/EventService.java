@@ -6,23 +6,24 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.application.usecases.IAddressUseCases;
 import com.application.usecases.IEventUseCases;
 import com.domain.address.Address;
 import com.domain.coupon.Coupon;
 import com.domain.event.*;
+import com.domain.event.dto.EventAddressProjection;
+import com.domain.event.dto.EventDetailsDTO;
+import com.domain.event.dto.EventRequestDTO;
+import com.domain.event.dto.EventResponseDTO;
 import com.utils.mappers.EventMapper;
 
 @Service
 public class EventService implements IEventUseCases {
 
-    
-    private IEventRepository eventRepository;
-    @Autowired
-    private EventMapper eventMapper;
-    @Autowired
-    private AddressService addressService;
-    @Autowired
-    private CouponService couponService;
+    @Autowired private IEventRepository eventRepository;
+    @Autowired private EventMapper eventMapper;
+    @Autowired private IAddressUseCases addressUseCases;
+    @Autowired private CouponService couponService;
 
     public Event createEvent(EventRequestDTO data){
         String imgUrl = "";
@@ -31,11 +32,11 @@ public class EventService implements IEventUseCases {
             imgUrl = this.UploadImg(data.image());
         }
 
-        Event event = new Event(null, data.title(), data.description(), imgUrl, data.eventUrl(), data.remote(), new Date(data.date()));
-        event = eventRepository.save(event);
+        Event event = new Event(data.title(), data.description(), imgUrl, data.eventUrl(), data.remote(), new Date(data.date()));
+        event = this.eventRepository.save(event);
 
         if(!data.remote())
-            this.addressService.create(data, event);
+            this.addressUseCases.create(data, event);
 
         return event;
     }
@@ -44,7 +45,8 @@ public class EventService implements IEventUseCases {
         Pageable pageable = PageRequest.of(page, pageSize);
         List<EventResponseDTO> eventsPage = this.eventRepository
             .findUpcomingEvents(new Date(), pageable)
-            .map(event -> eventMapper.domainToResponseDTO(event, event.getAddress()))
+            .map(event -> 
+                    eventMapper.domainToResponseDTO(event, event.getAddress()))
                 .stream().toList();
         return eventsPage;
     }
@@ -59,27 +61,16 @@ public class EventService implements IEventUseCases {
 
         Page<EventAddressProjection> eventsPage = this.eventRepository.findFilteredEvents(city, uf, startDate, endDate, pageable);
         return eventsPage.map(event -> 
-                    new EventResponseDTO(
-                        event.getId(),
-                        event.getTitle(),
-                        event.getDescription(),
-                        event.getDate(),
-                        event.getCity() != null ? event.getCity() : "",
-                        event.getUf() != null ? event.getUf() : "",
-                        event.getRemote(),
-                        event.getEventUrl(),
-                        event.getImgUrl()
-                    )
-                )
+                eventMapper.eventAddressProjectionToResponseDTO(event))
                 .stream().toList();
     }
 
     public EventDetailsDTO getEventDetails(UUID eventId){
-        Event event = eventRepository.findById(eventId)
+        Event event = this.eventRepository.findById(eventId)
             .orElseThrow(() -> new IllegalArgumentException("Event not found"));
         
-        List<Coupon> coupons = couponService.consultCoupons(eventId, new Date());
-        Optional<Address> address = addressService.findByEventId(eventId);
+        List<Coupon> coupons = this.couponService.consultCoupons(eventId, new Date());
+        Optional<Address> address = this.addressUseCases.findByEventId(eventId);
 
         return eventMapper.domainToDetailsDTO(event, address, coupons);
     }

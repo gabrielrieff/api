@@ -14,12 +14,12 @@ import com.adapters.outbound.repositories.CouponRepository;
 
 @Service
 public class CouponService {
-    private CouponRepository repository;
-    private IEventRepository eventRepository;
+    @Autowired private CouponRepository repository;
+    @Autowired private IEventRepository _eventRepository;
 
     public Coupon createCoupon(UUID eventId, CouponRequestDTO data){
 
-        Event event = eventRepository.findById(eventId)
+        Event event = this._eventRepository.findById(eventId)
         .orElseThrow(() -> new IllegalArgumentException("Event not found"));
 
         Coupon coupon = new Coupon();
@@ -32,6 +32,6 @@ public class CouponService {
     }
 
     public List<Coupon> consultCoupons(UUID eventId, Date currentDate) {
-        return repository.findByEventIdAndValidAfter(eventId, currentDate);
+        return this.repository.findByEventIdAndValidAfter(eventId, currentDate);
     }
 }

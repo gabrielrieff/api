@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.*;
 
+import com.domain.event.dto.EventAddressProjection;
+
 public interface IEventRepository {
     Event save(Event event);
     Optional<Event> findById(UUID id);
