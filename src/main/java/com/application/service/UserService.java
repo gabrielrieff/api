@@ -9,6 +9,7 @@ import com.domain.user.IUserRepository;
 import com.domain.user.User;
 import com.domain.user.dto.RegisterUserDTO;
 import com.domain.user.dto.UserDetailDTO;
+import com.exception.NotFoundException;
 import com.utils.mappers.UserMapper;
 
 @Service
@@ -19,7 +20,7 @@ public class UserService implements IUserUseCases{
     public UserDetailDTO create(RegisterUserDTO data){
 
         if(this.userRepository.findByEmail(data.email()) != null) 
-            throw new IllegalArgumentException("It was not possible to register the user.");
+            throw new NotFoundException("It was not possible to register the user.");
 
         var passwordEncriped = new BCryptPasswordEncoder().encode(data.password());
 
