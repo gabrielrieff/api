@@ -5,7 +5,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.application.usecases.ICouponUseCases;
+
+import com.application.interfaces.usecases.ICouponUseCases;
 import com.domain.coupon.Coupon;
 import com.domain.coupon.dto.CouponRequestDTO;
 

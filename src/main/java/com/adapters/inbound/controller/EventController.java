@@ -13,17 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.application.service.EventService;
+import com.application.implementations.usecases.EventUseCases;
 import com.domain.event.Event;
 import com.domain.event.dto.EventDetailsDTO;
 import com.domain.event.dto.EventRequestDTO;
 import com.domain.event.dto.EventResponseDTO;
+import com.domain.user.User;
+import com.infra.Security.LoggedUser;
 
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
     @Autowired
-    private EventService eventService;
+    private EventUseCases eventService;
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<Event> create(@RequestParam("title") String title,
@@ -33,8 +35,9 @@ public class EventController {
                                         @RequestParam("state") String state,
                                         @RequestParam("remote") Boolean remote,
                                         @RequestParam("eventUrl") String eventUrl,
+                                        @RequestParam("maxParticipants") Integer maxParticipants,
                                         @RequestParam(value = "image", required = false) MultipartFile image){
-        EventRequestDTO dto = new EventRequestDTO(title, description, date, city, state, remote, eventUrl, image);
+        EventRequestDTO dto = new EventRequestDTO(title, description, date, city, state, remote, eventUrl, maxParticipants, image);
         Event event = this.eventService.createEvent(dto);
         return ResponseEntity.ok(event);
     }
@@ -63,5 +66,11 @@ public class EventController {
         
         EventDetailsDTO response = this.eventService.getEventDetails(eventId);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{eventId}/registrations")
+    public ResponseEntity<Void> registrationEvent(@PathVariable UUID eventId, @LoggedUser User user){
+        this.eventService.registerUserInEvent(eventId, user.getId());
+        return ResponseEntity.ok().build();
     }
 }

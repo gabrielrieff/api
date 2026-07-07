@@ -1,4 +1,4 @@
-package com.adapters.outbound.repositories.implementations;
+package com.application.implementations.repositories;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.adapters.outbound.entites.JpaAddressEntity;
 import com.adapters.outbound.repositories.JpaAddressRepository;
+import com.application.interfaces.repositories.IAddressRepository;
 import com.domain.address.Address;
-import com.domain.address.IAddressRepository;
 import com.utils.mappers.AddressMapper;
 
 @Repository

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.application.usecases.IUserUseCases;
+import com.application.interfaces.usecases.IUserUseCases;
 import com.domain.user.dto.RegisterUserDTO;
 import com.domain.user.dto.UserDetailDTO;
 

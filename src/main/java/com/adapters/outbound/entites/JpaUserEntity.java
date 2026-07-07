@@ -1,6 +1,7 @@
 package com.adapters.outbound.entites;
 
 import java.util.*;
+
 import com.domain.Enum.UserRole;
 import com.domain.user.User;
 
@@ -16,7 +17,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JpaUserEntity {
+public class JpaUserEntity{
     @Id
     @GeneratedValue
     private UUID id;

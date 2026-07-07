@@ -1,4 +1,4 @@
-package com.adapters.outbound.repositories.implementations;
+package com.application.implementations.repositories;
 
 import java.util.Date;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.adapters.outbound.entites.JpaEventEntity;
 import com.adapters.outbound.repositories.JpaEventRepository;
+import com.application.interfaces.repositories.IEventRepository;
 import com.domain.event.Event;
-import com.domain.event.IEventRepository;
 import com.domain.event.dto.EventAddressProjection;
 import com.utils.mappers.EventMapper;
 
@@ -39,7 +39,7 @@ public class EventRepository implements IEventRepository {
     @Override
     public Optional<Event> findById(UUID id) {
         Optional<JpaEventEntity> jpaEvent = _jpaEventRepository.findById(id);
-        return jpaEvent.map(_eventMapper::jpaToDomain);
+        return Optional.of(_eventMapper.jpaToDomain(jpaEvent.get()));
     }
 
     @Override
@@ -65,6 +65,11 @@ public class EventRepository implements IEventRepository {
     public Page<EventAddressProjection> findFilteredEvents(String city, String uf, Date startDate, Date endDate,
             Pageable pageable) {
         return _jpaEventRepository.findFilteredEvents(city, uf, startDate, endDate, pageable);
+    }
+
+    @Override
+    public Optional<Event> findByIdForUpdate(UUID id) {
+        return _jpaEventRepository.findByIdForUpdate(id);
     }
     
 }

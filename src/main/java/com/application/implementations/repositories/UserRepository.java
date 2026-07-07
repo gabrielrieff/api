@@ -1,4 +1,7 @@
-package com.adapters.outbound.repositories.implementations;
+package com.application.implementations.repositories;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.adapters.outbound.entites.JpaUserEntity;
 import com.adapters.outbound.repositories.JpaUserRepository;
-import com.domain.user.IUserRepository;
+import com.application.interfaces.repositories.IUserRepository;
 import com.domain.user.User;
 import com.utils.mappers.UserMapper;
 
@@ -30,7 +33,16 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public UserDetails findByEmail(String email) {
-        return _jpaUserRepository.findByEmail(email);
+        var jpaUser = _jpaUserRepository.findByEmail(email);
+        if (jpaUser == null)
+            return null;
+
+        return _userMapper.jpaToDomain(jpaUser);
     }
-    
+
+    @Override
+    public Optional<User> findById(UUID id) {
+        var jpaUser = _jpaUserRepository.findById(id);
+        return Optional.of(_userMapper.jpaToDomain(jpaUser.get()));
+    }   
 }

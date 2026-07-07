@@ -1,4 +1,4 @@
-package com.adapters.outbound.repositories.implementations;
+package com.application.implementations.repositories;
 
 import java.util.Date;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.adapters.outbound.entites.JpaCouponEntity;
 import com.adapters.outbound.repositories.JpaCouponRepository;
+import com.application.interfaces.repositories.ICouponRepository;
 import com.domain.coupon.Coupon;
-import com.domain.coupon.ICouponRepository;
 import com.utils.mappers.CouponMapper;
 
 @Repository

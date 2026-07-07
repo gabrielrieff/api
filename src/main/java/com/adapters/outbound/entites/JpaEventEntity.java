@@ -1,12 +1,10 @@
 package com.adapters.outbound.entites;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.domain.event.Event;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +28,11 @@ public class JpaEventEntity {
     private String eventUrl;
     private Boolean remote;
     private Date date;
+    private Integer maxParticipants;
+    private Integer confirmedParticipants;
+
+    @Version
+    private Long version;
 
     @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
     private JpaAddressEntity address;
@@ -42,5 +45,8 @@ public class JpaEventEntity {
         this.eventUrl = event.getEventUrl();
         this.remote = event.getRemote();
         this.date = event.getDate();
+        this.maxParticipants = event.getMaxParticipants();
+        this.confirmedParticipants = event.getConfirmedParticipants();
+        this.version = event.getVersion();
     }
 }
