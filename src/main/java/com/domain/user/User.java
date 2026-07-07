@@ -26,6 +26,8 @@ public class User implements UserDetails
         this.role = role;
     }
 
+    public User(){}
+
     public UUID getId() {
         return id;
     }

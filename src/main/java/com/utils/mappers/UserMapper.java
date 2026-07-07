@@ -1,11 +1,13 @@
 package com.utils.mappers;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.adapters.outbound.entites.JpaUserEntity;
 import com.domain.user.User;
@@ -14,7 +16,7 @@ import com.domain.user.dto.UserDetailDTO;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mappings({
-        @Mapping(target = "id", ignore = true),
+        @Mapping(source = "jpa.id", target = "id"),
         @Mapping(source = "jpa.name", target = "name"),
         @Mapping(source = "jpa.email", target = "email"),
         @Mapping(source = "jpa.password", target = "password"),
@@ -29,8 +31,6 @@ public interface UserMapper {
         @Mapping(source = "domain.role", target = "role"),
     })
     UserDetailDTO domainToDetailDTO(User domain);
-
-
 
     @Named("epochToDate")
     default Date epochToDate(Long timestamp) {

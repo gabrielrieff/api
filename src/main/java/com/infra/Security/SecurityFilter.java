@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.domain.user.IUserRepository;
+import com.application.interfaces.repositories.IUserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

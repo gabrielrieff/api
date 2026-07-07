@@ -1,4 +1,4 @@
-package com.application.usecases;
+package com.application.interfaces.usecases;
 
 import java.util.Date;
 import java.util.List;
@@ -14,4 +14,5 @@ public interface IEventUseCases {
     public List<EventResponseDTO> getEvents(int page, int pageSize);
     public List<EventResponseDTO> getFilteredEvents(int page, int pageSize, String city, String uf, Date startDate, Date endDate);
     public EventDetailsDTO getEventDetails(UUID eventId);
+    public void registerUserInEvent(UUID eventId, UUID userId);
 }

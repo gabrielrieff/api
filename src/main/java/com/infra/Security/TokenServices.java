@@ -24,6 +24,7 @@ public class TokenServices {
             String token = JWT.create()
                         .withIssuer("auth-api")
                         .withSubject(user.getEmail())
+                        // .withClaim("userId", user.getId().toString())
                         .withExpiresAt(genereteExpirationDate())
                         .sign(algorithm);
 

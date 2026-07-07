@@ -1,4 +1,4 @@
-package com.application.usecases;
+package com.application.interfaces.usecases;
 
 import java.util.Date;
 import java.util.List;

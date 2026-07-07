@@ -9,4 +9,5 @@ public record EventRequestDTO(String title,
     String state, 
     Boolean remote,
     String eventUrl,
+    Integer maxParticipants,
     MultipartFile image){}

@@ -2,7 +2,8 @@ package com.domain.Enum;
 
 public enum UserRole {
     ADMIN("admin"),
-    COMMON("comum");
+    COMMON("comum"),
+    ORGANIZER("organizador");
 
     private String role;
 

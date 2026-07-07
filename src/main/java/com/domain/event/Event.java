@@ -15,16 +15,21 @@ public class Event {
     private String eventUrl;
     private Boolean remote;
     private Date date;
+    private Integer maxParticipants;
+    private Integer confirmedParticipants;
+
+    private Long version;
 
     private Address address;
 
-    public Event(String title, String description, String imgUrl, String eventUrl, Boolean remote, Date date){
+    public Event(String title, String description, String imgUrl, String eventUrl, Boolean remote, Date date, Integer maxParticipants){
         this.title = title;
         this.description = description;
         this.imgUrl = imgUrl;
         this.eventUrl = eventUrl;
         this.remote = remote;
         this.date = date;
+        this.maxParticipants = maxParticipants;
     };
 
     public Event(){};
@@ -61,6 +66,18 @@ public class Event {
         return Optional.ofNullable(address);
     }
 
+    public Integer getMaxParticipants() {
+        return maxParticipants;
+    }
+
+    public Integer getConfirmedParticipants() {
+        return confirmedParticipants;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -87,5 +104,35 @@ public class Event {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setMaxParticipants(Integer maxParticipants) {
+        this.maxParticipants = maxParticipants;
+    }
+
+    public void setConfirmedParticipants(Integer confirmedParticipants) {
+        this.confirmedParticipants = confirmedParticipants;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void incrementConfirmedParticipants() {
+        if (this.confirmedParticipants == null) {
+            this.confirmedParticipants = 1;
+        } else {
+            this.confirmedParticipants++;
+        }
+    }
+
+    public void decrementConfirmedParticipants() {
+        if (this.confirmedParticipants != null && this.confirmedParticipants > 0) {
+            this.confirmedParticipants--;
+        }
     }
 }

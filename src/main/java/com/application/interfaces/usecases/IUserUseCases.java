@@ -1,4 +1,4 @@
-package com.application.usecases;
+package com.application.interfaces.usecases;
 
 import com.domain.user.dto.RegisterUserDTO;
 import com.domain.user.dto.UserDetailDTO;
