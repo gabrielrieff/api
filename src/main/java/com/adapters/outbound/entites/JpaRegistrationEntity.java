@@ -36,15 +36,17 @@ public class JpaRegistrationEntity {
     private RegistrationStatus status;
 
     public JpaRegistrationEntity(Registration registration) {
+        this.id = registration.getId();
         this.user = new JpaUserEntity(registration.getUser());
         this.event = new JpaEventEntity(registration.getEvent());
         this.registeredAt = registration.getRegisteredAt();
         this.createdAt = registration.getCreatedAt();
         this.updatedAt = registration.getUpdatedAt();
-        this.status = RegistrationStatus.CONFIRMED;
+        this.status = registration.getStatus();
+        this.cancelledAt = registration.getCancelledAt().orElse(null);
     }
 
-    public void CancelRegistration(){
+    public void cancel(){
         this.status = RegistrationStatus.CANCELLED;
         this.cancelledAt = new Date();
         this.updatedAt = new Date();

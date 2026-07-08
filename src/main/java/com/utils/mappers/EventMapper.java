@@ -45,7 +45,7 @@ public interface EventMapper {
         @Mapping(source = "jpa.maxParticipants", target = "maxParticipants"),
         @Mapping(source = "jpa.confirmedParticipants", target = "confirmedParticipants"),
         @Mapping(source = "jpa.version", target = "version"),
-         @Mapping(target = "address", ignore = true),
+        @Mapping(target = "address", ignore = true),
     })
     Event jpaToDomain(JpaEventEntity jpa);    
     

@@ -1,5 +1,6 @@
 package com.application.implementations.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,15 @@ public class RegistrationRepository implements IRegistrationRepository {
     @Override
     public Integer countByEventId(UUID eventId) {
         return this.jpaRegistrationRepository.countByEventId(eventId);
+    }
+
+    @Override
+    public Optional<Registration> findByUserIdAndEventId(UUID userId, UUID eventId) {
+        var jpa = this.jpaRegistrationRepository.findByUserIdAndEventId(userId, eventId);
+        if(jpa.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(registrationMapper.jpaToDomain(jpa.get()));
     }
 
 }

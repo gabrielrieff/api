@@ -15,4 +15,5 @@ public interface IEventUseCases {
     public List<EventResponseDTO> getFilteredEvents(int page, int pageSize, String city, String uf, Date startDate, Date endDate);
     public EventDetailsDTO getEventDetails(UUID eventId);
     public void registerUserInEvent(UUID eventId, UUID userId);
+    public void cancelEventRegistration(UUID eventId, UUID userId);
 }

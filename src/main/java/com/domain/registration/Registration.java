@@ -61,7 +61,7 @@ public class Registration {
         return status;
     }
 
-    public void CancelRegistration(){
+    public void cancel(){
         this.status = RegistrationStatus.CANCELLED;
         this.cancelledAt = Optional.of(new Date());
         this.updatedAt = new Date();

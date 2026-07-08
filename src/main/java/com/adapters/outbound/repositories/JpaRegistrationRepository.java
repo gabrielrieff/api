@@ -1,5 +1,6 @@
 package com.adapters.outbound.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface JpaRegistrationRepository  extends JpaRepository<JpaRegistratio
 
     @Query("SELECT COUNT(r) FROM Registration r WHERE r.event.id = :eventId AND r.status = 'CONFIRMED'")
     Integer countByEventId(UUID eventId);
+
+    Optional<JpaRegistrationEntity> findByUserIdAndEventId(UUID userId, UUID eventId);
 }

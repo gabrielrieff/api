@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.application.interfaces.repositories.IEventRepository;
 import com.application.interfaces.repositories.IRegistrationRepository;
@@ -113,6 +112,24 @@ public class EventUseCases implements IEventUseCases {
         event.incrementConfirmedParticipants();
 
         var registration = new Registration(user, event);
+        this.eventRepository.save(event);
+        this.registrationRepository.save(registration);
+    }
+
+    @Override
+    public void cancelEventRegistration(UUID eventId, UUID userId) {
+        var event = this.eventRepository.findById(eventId)
+            .orElseThrow(() -> new NotFoundException("Event not found"));
+
+        if(event.getDate().getTime() - System.currentTimeMillis() <= 10 * 60 * 60 * 1000){
+            throw new GenericException("Event has already occurred", HttpStatus.BAD_REQUEST, "EVENT_ALREADY_OCCURRED");
+        }
+
+        var registration = this.registrationRepository.findByUserIdAndEventId(userId, eventId)
+            .orElseThrow(() -> new NotFoundException("User is not registered for this event"));
+        registration.cancel();
+
+        event.decrementConfirmedParticipants();
         this.eventRepository.save(event);
         this.registrationRepository.save(registration);
     }

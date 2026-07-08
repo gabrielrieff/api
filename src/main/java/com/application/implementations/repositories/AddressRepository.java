@@ -26,7 +26,7 @@ public class AddressRepository implements IAddressRepository{
     public Address save(Address address) {
         var jpaAddress = new JpaAddressEntity(address);
         _jpaAddressRepository.save(jpaAddress);
-        return _addressMapper.toEntity(jpaAddress);
+        return _addressMapper.jpaToDomain(jpaAddress);
     }
 
     @Override

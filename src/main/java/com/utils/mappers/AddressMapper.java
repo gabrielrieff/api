@@ -9,11 +9,6 @@ import com.domain.address.Address;
 
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
-    @Mappings({
-        @Mapping(target = "jpa.id", ignore = true),
-        @Mapping(source = "jpa.city", target = "city"),
-        @Mapping(source = "jpa.uf", target = "uf"),
-        @Mapping(source = "jpa.event", target = "event"),
-    })
-    Address toEntity(JpaAddressEntity jpa);
+    @Mapping(target = "event", ignore = true)
+    Address jpaToDomain(JpaAddressEntity jpa);
 }
